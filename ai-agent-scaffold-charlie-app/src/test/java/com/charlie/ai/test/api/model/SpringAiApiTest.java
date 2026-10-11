@@ -16,10 +16,8 @@ public class SpringAiApiTest {
 
     public static void main(String[] args) {
         OpenAiApi openAiApi = OpenAiApi.builder()
-                .baseUrl("https://api.stepfun.com/step_plan")
+                .baseUrl("https://api.stepfun.com/step_plan/v1")
                 .apiKey("134ajznaQWAd0bhZ5bcnOQZGzR6jl8EKNOYHsCxJkvszVFCaG8AqmXZlnW5JNAyxI")
-                .completionsPath("v1/chat/completions")
-                .embeddingsPath("v1/embeddings")
                 .build();
 
         ChatModel chatModel = OpenAiChatModel.builder()
