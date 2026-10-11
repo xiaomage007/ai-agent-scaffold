@@ -1,6 +1,7 @@
 package com.charlie.ai.test.api.model;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
@@ -21,10 +22,11 @@ public class SpringAiApiTest {
                 .embeddingsPath("v1/embeddings")
                 .build();
 
-        OpenAiChatModel chatModel = OpenAiChatModel.builder()
+        ChatModel chatModel = OpenAiChatModel.builder()
                 .openAiApi(openAiApi)
                 .defaultOptions(OpenAiChatOptions.builder().model("step-5-preview").build())
                 .build();
+
 
         String call = chatModel.call("hi 你好哇!");
 
