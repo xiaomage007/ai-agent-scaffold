@@ -1,5 +1,6 @@
 package com.charlie.ai.test.api.model;
 
+import com.charlie.ai.test.support.TestEnvironmentHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -18,7 +19,7 @@ public class SpringAiApiTest {
 
         OpenAiApi openAiApi = OpenAiApi.builder()
                 .baseUrl("https://api.stepfun.com/step_plan")
-                .apiKey("134ajznaQWAd0bhZ5bcnOQZGzR6jl8EKNOYHsCxJkvszVFCaG8AqmXZlnW5JNAyxI")
+                .apiKey(TestEnvironmentHolder.getProperty("ai.stepfun.api-key"))
                 .build();
 
 
