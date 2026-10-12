@@ -15,10 +15,12 @@ import org.springframework.ai.openai.api.OpenAiApi;
 public class SpringAiApiTest {
 
     public static void main(String[] args) {
+
         OpenAiApi openAiApi = OpenAiApi.builder()
-                .baseUrl("https://api.stepfun.com/step_plan/v1")
+                .baseUrl("https://api.stepfun.com/step_plan")
                 .apiKey("134ajznaQWAd0bhZ5bcnOQZGzR6jl8EKNOYHsCxJkvszVFCaG8AqmXZlnW5JNAyxI")
                 .build();
+
 
         ChatModel chatModel = OpenAiChatModel.builder()
                 .openAiApi(openAiApi)
