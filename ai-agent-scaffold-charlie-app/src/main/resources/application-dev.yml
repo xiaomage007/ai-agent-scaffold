@@ -40,3 +40,13 @@ logging:
   level:
     root: info
   config: classpath:logback-spring.xml
+
+# AI 配置；密钥通过环境变量注入，不提交到仓库
+ai:
+  # 阶跃星辰；https://platform.stepfun.com
+  stepfun:
+    api-key: ${STEPFUN_API_KEY:}
+  # 百度搜索 MCP；https://console.bce.baidu.com/iam/?_=1753597622044#/iam/apikey/list
+  baidu:
+    mcp:
+      api-key: ${BAIDU_MCP_API_KEY:}
