@@ -1,5 +1,6 @@
 package com.charlie.ai.test.api.model;
 
+import com.charlie.ai.test.support.TestEnvironmentHolder;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,7 @@ public class LangChain4jApiTest {
     public static void main(String[] args) {
         OpenAiChatModel model = OpenAiChatModel.builder()
                 .baseUrl("https://api.stepfun.com/step_plan/v1")
-                .apiKey("134ajznaQWAd0bhZ5bcnOQZGzR6jl8EKNOYHsCxJkvszVFCaG8AqmXZlnW5JNAyxI")
+                .apiKey(TestEnvironmentHolder.getProperty("ai.stepfun.api-key"))
                 .modelName("step-5-preview")
                 .build();
 
