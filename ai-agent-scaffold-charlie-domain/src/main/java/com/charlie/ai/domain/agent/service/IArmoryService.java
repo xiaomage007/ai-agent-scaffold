@@ -1,7 +1,6 @@
 package com.charlie.ai.domain.agent.service;
 
 import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
-import com.charlie.ai.domain.agent.model.valobj.properties.AiAgentAutoConfigProperties;
 
 import java.util.List;
 
