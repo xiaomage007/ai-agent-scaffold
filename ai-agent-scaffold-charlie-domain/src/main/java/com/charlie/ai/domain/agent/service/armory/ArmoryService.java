@@ -4,7 +4,6 @@ import cn.bugstack.wrench.design.framework.tree.StrategyHandler;
 import com.charlie.ai.domain.agent.model.entity.ArmoryCommandEntity;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentRegisterVO;
-import com.charlie.ai.domain.agent.model.valobj.properties.AiAgentAutoConfigProperties;
 import com.charlie.ai.domain.agent.service.IArmoryService;
 import com.charlie.ai.domain.agent.service.armory.factory.DefaultArmoryFactory;
 import lombok.extern.slf4j.Slf4j;
