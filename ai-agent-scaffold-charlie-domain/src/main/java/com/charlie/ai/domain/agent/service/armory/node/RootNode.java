@@ -23,10 +23,10 @@ public class RootNode extends AbstractArmorySupport {
     private AiApiNode aiApiNode;
 
     @Override
-    protected AiAgentRegisterVO doApply(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
+    protected AiAgentRegisterVO doApply(ArmoryCommandEntity requestParameter, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
 
         // 路由到下一个节点
-        return router(armoryCommandEntity, dynamicContext);
+        return router(requestParameter, dynamicContext);
     }
 
     @Override
