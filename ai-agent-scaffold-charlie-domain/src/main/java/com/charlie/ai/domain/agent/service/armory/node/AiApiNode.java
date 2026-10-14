@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 public class AiApiNode extends AbstractArmorySupport {
 
     @Override
-    protected AiAgentRegisterVO doApply(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
+    protected AiAgentRegisterVO doApply(ArmoryCommandEntity requestParameter, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
         // 编写 AiApi 构建
 
         // 路由到下一个节点，如果不需要路由了，可以 return 返回结果
-        return router(armoryCommandEntity, dynamicContext);
+        return router(requestParameter, dynamicContext);
     }
 
     @Override
