@@ -10,5 +10,7 @@ import java.util.List;
  * @date: 2026/10/14 9:24
  */
 public interface IArmoryService {
+
     void acceptArmoryAgents(List<AiAgentAutoConfigProperties> tables) throws Exception;
+
 }
