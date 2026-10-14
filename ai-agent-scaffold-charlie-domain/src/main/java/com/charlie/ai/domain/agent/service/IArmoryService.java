@@ -1,5 +1,6 @@
 package com.charlie.ai.domain.agent.service;
 
+import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
 import com.charlie.ai.domain.agent.model.valobj.properties.AiAgentAutoConfigProperties;
 
 import java.util.List;
@@ -11,6 +12,6 @@ import java.util.List;
  */
 public interface IArmoryService {
 
-    void acceptArmoryAgents(List<AiAgentAutoConfigProperties> tables) throws Exception;
+    void acceptArmoryAgents(List<AiAgentConfigTableVO> tables) throws Exception;
 
 }
