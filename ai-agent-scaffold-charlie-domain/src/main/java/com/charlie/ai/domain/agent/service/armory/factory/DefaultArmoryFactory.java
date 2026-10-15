@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,14 @@ public class DefaultArmoryFactory {
     @NoArgsConstructor
     public static class DynamicContext {
 
-        private OpenAiApi  openAiApi;
+        /**
+         * LLM API
+         */
+        private OpenAiApi openAiApi;
+        /**
+         * LLM ChatModel
+         */
+        private ChatModel chatModel;
 
         private Map<String, Object> dataObjects = new HashMap<>();
 

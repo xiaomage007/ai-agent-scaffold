@@ -40,3 +40,11 @@ build/
 ### Mac OS ###
 .DS_Store
 .idea/
+
+### 本地敏感配置与 IDE 临时文件（含 API Key/密码，禁止提交）###
+ai-agent-scaffold-charlie-app/src/main/resources/application-dev.yml
+ai-agent-scaffold-charlie-app/src/main/resources/agent/
+/data/
+*.log
+run.args
+cp.txt
