@@ -23,8 +23,10 @@ public class SpringAiToolTest {
 
     public static void main(String[] args) {
         OpenAiApi openAiApi = OpenAiApi.builder()
-                .baseUrl("https://api.stepfun.com/step_plan")
+                .baseUrl("https://api.stepfun.com/")
                 .apiKey(TestEnvironmentHolder.getProperty("ai.stepfun.api-key"))
+                .completionsPath("v1/chat/completions")
+                .embeddingsPath("v1/embeddings")
                 .build();
 
         ChatModel chatModel = OpenAiChatModel.builder()
