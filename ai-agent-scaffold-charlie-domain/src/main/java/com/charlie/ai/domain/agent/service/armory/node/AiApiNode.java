@@ -2,14 +2,17 @@ package com.charlie.ai.domain.agent.service.armory.node;
 
 import cn.bugstack.wrench.design.framework.tree.StrategyHandler;
 import com.charlie.ai.domain.agent.model.entity.ArmoryCommandEntity;
+import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentRegisterVO;
 import com.charlie.ai.domain.agent.service.armory.AbstractArmorySupport;
 import com.charlie.ai.domain.agent.service.armory.factory.DefaultArmoryFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.stereotype.Service;
 
 /**
- * @description:
+ * @description: 装配域节点-AiApiNode
  * @author: Charlie
  * @date: 2026/10/14 10:24
  */
@@ -18,11 +21,22 @@ import org.springframework.stereotype.Service;
 public class AiApiNode extends AbstractArmorySupport {
 
     @Override
-    protected AiAgentRegisterVO doApply(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
-        // 编写 AiApi 构建
+    protected AiAgentRegisterVO doApply(ArmoryCommandEntity requestParameter, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
+        log.info("Ai Agent 装配操作 - AiApiNode");
+
+        AiAgentConfigTableVO aiAgentConfigTableVO = requestParameter.getAiAgentConfigTableVO();
+        AiAgentConfigTableVO.Module.AiApi aiApiConfig = aiAgentConfigTableVO.getModule().getAiApi();
+
+        OpenAiApi openAiApi = OpenAiApi.builder()
+                .baseUrl(aiApiConfig.getBaseUrl())
+                .apiKey(aiApiConfig.getApiKey())
+                .completionsPath(StringUtils.isNotBlank(aiApiConfig.getCompletionsPath()) ? aiApiConfig.getCompletionsPath() : "v1/chat/completions")
+                .embeddingsPath(StringUtils.isNotBlank(aiApiConfig.getEmbeddingsPath()) ? aiApiConfig.getEmbeddingsPath() : "v1/embeddings")
+                .build();
+        dynamicContext.setOpenAiApi(openAiApi);
 
         // 路由到下一个节点，如果不需要路由了，可以 return 返回结果
-        return router(armoryCommandEntity, dynamicContext);
+        return router(requestParameter, dynamicContext);
     }
 
     @Override
