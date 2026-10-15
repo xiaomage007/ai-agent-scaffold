@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @description: 装配域节点-AiApiNode
  * @author: Charlie
@@ -19,6 +21,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class AiApiNode extends AbstractArmorySupport {
+
+    @Resource
+    private ChatModelNode chatModelNode;
 
     @Override
     protected AiAgentRegisterVO doApply(ArmoryCommandEntity requestParameter, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
