@@ -23,6 +23,7 @@ import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ import java.util.List;
 @Service
 public class ChatModelNode extends AbstractArmorySupport {
 
+    @Resource
+    private AgentNode agentNode;
 
     @Override
     protected AiAgentRegisterVO doApply(ArmoryCommandEntity requestParameter, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
@@ -69,7 +72,7 @@ public class ChatModelNode extends AbstractArmorySupport {
 
     @Override
     public StrategyHandler<ArmoryCommandEntity, DefaultArmoryFactory.DynamicContext, AiAgentRegisterVO> get(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
-        return defaultStrategyHandler;
+        return agentNode;
     }
 
 

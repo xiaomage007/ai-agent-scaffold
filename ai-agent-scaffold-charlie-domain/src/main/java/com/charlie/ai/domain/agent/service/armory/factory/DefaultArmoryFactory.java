@@ -5,6 +5,7 @@ import com.charlie.ai.domain.agent.model.entity.ArmoryCommandEntity;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentRegisterVO;
 import com.charlie.ai.domain.agent.service.armory.node.RootNode;
+import com.google.adk.agents.BaseAgent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,6 +50,11 @@ public class DefaultArmoryFactory {
          * LLM ChatModel
          */
         private ChatModel chatModel;
+
+        /**
+         * 智能体配置组
+         */
+        private Map<String, BaseAgent> agentGroup = new HashMap<>();
 
         private Map<String, Object> dataObjects = new HashMap<>();
 
