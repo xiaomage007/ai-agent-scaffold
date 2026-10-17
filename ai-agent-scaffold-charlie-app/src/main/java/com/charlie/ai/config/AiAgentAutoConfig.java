@@ -2,6 +2,7 @@ package com.charlie.ai.config;
 
 import com.alibaba.fastjson.JSON;
 import com.charlie.ai.domain.agent.model.valobj.properties.AiAgentAutoConfigProperties;
+import com.charlie.ai.domain.agent.service.IArmoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 
 /**
  * Ai Agent 智能体自动装配配置类。
@@ -68,6 +70,9 @@ public class AiAgentAutoConfig implements ApplicationListener<ApplicationReadyEv
     @Resource
     private AiAgentAutoConfigProperties aiAgentAutoConfigProperties;
 
+    @Resource
+    private IArmoryService armoryService;
+
     /**
      * Spring 容器启动就绪后的回调，用于执行智能体装配的初始化逻辑。
      *
@@ -95,6 +100,8 @@ public class AiAgentAutoConfig implements ApplicationListener<ApplicationReadyEv
         try {
             // values() 取出 Map 中所有配置表；key 为配置表标识（自定义命名），此处仅需值集合
             log.info("Ai Agent 智能体装配 {}", JSON.toJSONString(aiAgentAutoConfigProperties.getTables().values()));
+
+            armoryService.acceptArmoryAgents(new ArrayList<>(aiAgentAutoConfigProperties.getTables().values()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -47,6 +47,6 @@ public class AiApiNode extends AbstractArmorySupport {
     @Override
     public StrategyHandler<ArmoryCommandEntity, DefaultArmoryFactory.DynamicContext, AiAgentRegisterVO> get(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
         // 如果不需要下一个节点了，可以配置 defaultStrategyHandler
-        return defaultStrategyHandler;
+        return chatModelNode;
     }
 }
