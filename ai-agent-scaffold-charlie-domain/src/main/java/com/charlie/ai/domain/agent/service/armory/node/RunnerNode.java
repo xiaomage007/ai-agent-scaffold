@@ -6,9 +6,13 @@ import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentRegisterVO;
 import com.charlie.ai.domain.agent.service.armory.AbstractArmorySupport;
 import com.charlie.ai.domain.agent.service.armory.factory.DefaultArmoryFactory;
+import com.charlie.ai.types.enums.ResponseCode;
+import com.charlie.ai.types.exception.AppException;
+import com.google.adk.agents.BaseAgent;
 import com.google.adk.agents.SequentialAgent;
 import com.google.adk.runner.InMemoryRunner;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,10 +35,7 @@ public class RunnerNode extends AbstractArmorySupport {
         String agentName = agent.getAgentName();
         String agentDesc = agent.getAgentDesc();
 
-        // 获取上下文对象
-        SequentialAgent sequentialAgent = dynamicContext.getSequentialAgent();
-
-        InMemoryRunner runner = new InMemoryRunner(sequentialAgent, appName);
+        InMemoryRunner runner = getRunner(dynamicContext, aiAgentConfigTableVO, appName);
 
         AiAgentRegisterVO aiAgentRegisterVO = AiAgentRegisterVO.builder()
                 .appName(appName)
@@ -48,6 +49,34 @@ public class RunnerNode extends AbstractArmorySupport {
         registerBean(agentId, AiAgentRegisterVO.class, aiAgentRegisterVO);
 
         return aiAgentRegisterVO;
+    }
+
+    private static InMemoryRunner getRunner(DefaultArmoryFactory.DynamicContext dynamicContext, AiAgentConfigTableVO aiAgentConfigTableVO, String appName) {
+        AiAgentConfigTableVO.Module.Runner runnerConfig = aiAgentConfigTableVO.getModule().getRunner();
+
+        // 装配发生在 ApplicationReadyEvent 阶段，任何一个配置表漏配 runner 都会让整个 Spring 上下文启动失败；
+        // 所以这里必须自己把空值拦住并给出可读信息，而不是把裸 NPE 抛给 AiAgentAutoConfig 再包成 RuntimeException
+        if (null == runnerConfig) {
+            log.error("runner config is null. appName: {}", appName);
+            throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
+        }
+
+        String agentName = runnerConfig.getAgentName();
+        if (StringUtils.isBlank(agentName)) {
+            log.error("runner.agentName is blank. appName: {}", appName);
+            throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
+        }
+
+        // runner.agentName 必须是前序节点已经构建并放入 agentGroup 的智能体名；
+        // 名字写错时若不在装配期拦住，InMemoryRunner 会持有 null agent，
+        // 直到 runAsync 时才在 InvocationContext.agent() 处抛空指针，现场离根因太远
+        BaseAgent baseAgent = dynamicContext.getAgentGroup().get(agentName);
+        if (null == baseAgent) {
+            log.error("runner.agentName {} not found in agentGroup. appName: {}", agentName, appName);
+            throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
+        }
+
+        return new InMemoryRunner(baseAgent, appName);
     }
 
     @Override
