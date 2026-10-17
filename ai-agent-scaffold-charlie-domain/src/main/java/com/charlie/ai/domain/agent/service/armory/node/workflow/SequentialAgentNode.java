@@ -46,15 +46,11 @@ public class SequentialAgentNode extends AbstractArmorySupport {
 
         dynamicContext.getAgentGroup().put(agentWorkflow.getName(), sequentialAgent);
 
-        // RunnerNode 构建 Runner 时是从 DynamicContext 中取出最终智能体的，
-        // 这里必须把 sequentialAgent 写入上下文；否则 RunnerNode 取到 null，
-        // InMemoryRunner 内部没有 agent，runAsync 时会在 InvocationContext.agent() 处抛出空指针
-        dynamicContext.setSequentialAgent(sequentialAgent);
-
         // 注册到 Spring 容器
         registerBean(agentWorkflow.getName(), SequentialAgent.class, sequentialAgent);
 
-        return router(requestParameter, dynamicContext);    }
+        return router(requestParameter, dynamicContext);
+    }
 
     @Override
     public StrategyHandler<ArmoryCommandEntity, DefaultArmoryFactory.DynamicContext, AiAgentRegisterVO> get(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
