@@ -10,6 +10,9 @@ import com.charlie.ai.types.exception.AppException;
 
 import javax.annotation.Resource;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 /**
  * @ClassName: DefaultMcpClientFactory
  * @Description:
@@ -17,6 +20,8 @@ import javax.annotation.Resource;
  * @Date: 2026/10/18 16:02
  * @Version: 1.0
  */
+@Slf4j
+@Service
 public class DefaultMcpClientFactory {
 
     @Resource
