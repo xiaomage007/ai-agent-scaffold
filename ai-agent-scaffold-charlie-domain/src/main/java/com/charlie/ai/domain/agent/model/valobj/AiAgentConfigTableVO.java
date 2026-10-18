@@ -106,7 +106,7 @@ public class AiAgentConfigTableVO {
                 }
 
                 @Data
-                private static class LocalParameters{
+                public static class LocalParameters{
                     private String name;
                 }
 
