@@ -50,8 +50,8 @@ public class ChatModelNode extends AbstractArmorySupport {
         AiAgentConfigTableVO aiAgentConfigTableVO = requestParameter.getAiAgentConfigTableVO();
         AiAgentConfigTableVO.Module.ChatModel chatModelConfig = aiAgentConfigTableVO.getModule().getChatModel();
 
-        List<McpSyncClient> mcpSyncClients = new ArrayList<>();
         List<AiAgentConfigTableVO.Module.ChatModel.ToolMcp> toolMcpList = chatModelConfig.getToolMcpList();
+        List<McpSyncClient> mcpSyncClients = new ArrayList<>();
         for (AiAgentConfigTableVO.Module.ChatModel.ToolMcp toolMcp : toolMcpList) {
             mcpSyncClients.add(createMcpSyncClient(toolMcp));
         }
