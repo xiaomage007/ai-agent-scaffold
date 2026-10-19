@@ -10,10 +10,15 @@ import com.charlie.ai.types.enums.ResponseCode;
 import com.charlie.ai.types.exception.AppException;
 import com.google.adk.agents.BaseAgent;
 import com.google.adk.agents.SequentialAgent;
+import com.google.adk.plugins.BasePlugin;
 import com.google.adk.runner.InMemoryRunner;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @description: 执行节点
@@ -51,7 +56,7 @@ public class RunnerNode extends AbstractArmorySupport {
         return aiAgentRegisterVO;
     }
 
-    private static InMemoryRunner getRunner(DefaultArmoryFactory.DynamicContext dynamicContext, AiAgentConfigTableVO aiAgentConfigTableVO, String appName) {
+    private InMemoryRunner getRunner(DefaultArmoryFactory.DynamicContext dynamicContext, AiAgentConfigTableVO aiAgentConfigTableVO, String appName) {
         AiAgentConfigTableVO.Module.Runner runnerConfig = aiAgentConfigTableVO.getModule().getRunner();
 
         // 装配发生在 ApplicationReadyEvent 阶段，任何一个配置表漏配 runner 都会让整个 Spring 上下文启动失败；
@@ -76,7 +81,21 @@ public class RunnerNode extends AbstractArmorySupport {
             throw new AppException(ResponseCode.ILLEGAL_PARAMETER.getCode(), ResponseCode.ILLEGAL_PARAMETER.getInfo());
         }
 
-        return new InMemoryRunner(baseAgent, appName);
+        // 扩展插件
+        List<BasePlugin> plugins;
+        List<String> pluginNameList = runnerConfig.getPluginNameList();
+        if (null != pluginNameList && !pluginNameList.isEmpty()) {
+            plugins = new ArrayList<>();
+            for (String pluginName : pluginNameList) {
+                BasePlugin plugin = getBean(pluginName);
+                plugins.add(plugin);
+            }
+        } else {
+            plugins = ImmutableList.of();
+        }
+
+
+        return new InMemoryRunner(baseAgent, appName, plugins);
     }
 
     @Override
