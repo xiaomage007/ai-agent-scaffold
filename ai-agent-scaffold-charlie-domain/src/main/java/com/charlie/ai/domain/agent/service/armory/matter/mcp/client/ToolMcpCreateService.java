@@ -1,4 +1,4 @@
-package com.charlie.ai.domain.agent.service.armory.mcp.client;
+package com.charlie.ai.domain.agent.service.armory.matter.mcp.client;
 
 import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
 import org.springframework.ai.tool.ToolCallback;
