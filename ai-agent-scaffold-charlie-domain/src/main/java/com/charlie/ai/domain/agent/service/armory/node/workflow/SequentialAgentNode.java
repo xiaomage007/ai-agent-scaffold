@@ -24,9 +24,6 @@ import java.util.List;
 @Service("sequentialAgentNode")
 public class SequentialAgentNode extends AbstractArmorySupport {
 
-    @Resource
-    private RunnerNode runnerNode;
-
     @Override
     protected AiAgentRegisterVO doApply(ArmoryCommandEntity requestParameter, DefaultArmoryFactory.DynamicContext dynamicContext) throws Exception {
         log.info("Ai Agent 装配操作 - SequentialAgentNode");
