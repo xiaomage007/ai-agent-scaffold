@@ -102,11 +102,54 @@ public class ChatService implements IChatService {
 
     @Override
     public Flowable<Event> handleMessageStream(String agentId, String userId, String sessionId, String message) {
-        return null;
+        AiAgentRegisterVO aiAgentRegisterVO = defaultArmoryFactory.getAiAgentRegisterVO(agentId);
+
+        if (null == aiAgentRegisterVO) {
+            throw new AppException(ResponseCode.E0001.getCode());
+        }
+        InMemoryRunner runner = aiAgentRegisterVO.getRunner();
+
+        Content userMsg = Content.fromParts(Part.fromText(message));
+
+        return runner.runAsync(userId, sessionId, userMsg);
     }
 
     @Override
     public List<String> handleMessage(ChatCommandEntity chatCommandEntity) {
-        return List.of();
+        AiAgentRegisterVO aiAgentRegisterVO = defaultArmoryFactory.getAiAgentRegisterVO(chatCommandEntity.getAgentId());
+
+        if (null == aiAgentRegisterVO) {
+            throw new AppException(ResponseCode.E0001.getCode());
+        }
+
+        List<Part> parts = new ArrayList<>();
+
+        List<ChatCommandEntity.Content.Text> texts = chatCommandEntity.getTexts();
+        texts.forEach((text) -> {
+            parts.add(Part.fromText(text.getMessage()));
+        });
+
+        List<ChatCommandEntity.Content.File> files = chatCommandEntity.getFiles();
+        files.forEach((file) -> {
+            parts.add(Part.fromUri(file.getFileUri(), file.getMimeType()));
+        });
+
+        List<ChatCommandEntity.Content.InlineData> inlineDatas = chatCommandEntity.getInlineDatas();
+        inlineDatas.forEach((inlineData) -> {
+            parts.add(Part.fromBytes(inlineData.getBytes(), inlineData.getMimeType()));
+        });
+
+        Content content = Content.builder().role("user").parts(parts).build();
+
+        // 获取运行体
+        InMemoryRunner runner = aiAgentRegisterVO.getRunner();
+
+        Flowable<Event> events = runner.runAsync(chatCommandEntity.getUserId(), chatCommandEntity.getSessionId(), content);
+
+        List<String> outputs = new ArrayList<>();
+        events.blockingForEach(event -> outputs.add(event.stringifyContent()));
+
+        return outputs;
     }
+
 }
