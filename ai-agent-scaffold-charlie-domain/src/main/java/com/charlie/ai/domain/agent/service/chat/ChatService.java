@@ -14,6 +14,7 @@ import com.google.adk.sessions.Session;
 import com.google.genai.types.Content;
 import com.google.genai.types.Part;
 import io.reactivex.rxjava3.core.Flowable;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @description:
+ * @description: 对话服务实现类。标注 @Service 使其被 Spring 组件扫描注册为 Bean，
+ * 这样调用方（含测试类）才能通过 IChatService 接口注入获得实例，否则启动注入阶段直接报 NoSuchBeanDefinitionException。
  * @author: Charlie
  * @date: 2026/10/14 9:37
  */
+@Service
 public class ChatService implements IChatService {
 
     @jakarta.annotation.Resource
