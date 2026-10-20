@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class DefaultArmoryFactory {
 
+
+
     @Resource
     private RootNode rootNode;
 

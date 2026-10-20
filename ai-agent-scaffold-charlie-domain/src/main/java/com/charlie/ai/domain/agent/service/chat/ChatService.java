@@ -2,11 +2,16 @@ package com.charlie.ai.domain.agent.service.chat;
 
 import com.charlie.ai.domain.agent.model.entity.ChatCommandEntity;
 import com.charlie.ai.domain.agent.model.valobj.AiAgentConfigTableVO;
+import com.charlie.ai.domain.agent.model.valobj.properties.AiAgentAutoConfigProperties;
 import com.charlie.ai.domain.agent.service.IChatService;
+import com.charlie.ai.domain.agent.service.armory.factory.DefaultArmoryFactory;
 import com.google.adk.events.Event;
 import io.reactivex.rxjava3.core.Flowable;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -15,9 +20,21 @@ import java.util.List;
  */
 public class ChatService implements IChatService {
 
+    @jakarta.annotation.Resource
+    private DefaultArmoryFactory defaultArmoryFactory;
+
+    @Resource
+    private AiAgentAutoConfigProperties aiAgentAutoConfigProperties;
+
+
     @Override
     public List<AiAgentConfigTableVO.Agent> queryAiAgentConfigList() {
-        return List.of();
+        Map<String, AiAgentConfigTableVO> tables = aiAgentAutoConfigProperties.getTables();
+        List<AiAgentConfigTableVO.Agent> agentList = new ArrayList<>();
+        tables.forEach((agentId, aiAgentConfigTableVO) -> {
+            agentList.add(aiAgentConfigTableVO.getAgent());
+        });
+        return agentList;
     }
 
     @Override
