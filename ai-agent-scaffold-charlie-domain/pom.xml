@@ -58,6 +58,10 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springaicommunity</groupId>
+            <artifactId>spring-ai-agent-utils</artifactId>
+        </dependency>
         <!-- 系统模块 -->
         <dependency>
             <groupId>com.charlie</groupId>
