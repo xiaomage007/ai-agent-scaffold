@@ -1,4 +1,4 @@
-package com.charlie.ai.test.api.tool;
+package com.charlie.ai.test.api.tool.mcp;
 
 import com.charlie.ai.test.support.TestEnvironmentHolder;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
